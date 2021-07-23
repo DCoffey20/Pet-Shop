@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
+import PetTable from './components/PetTable';
 import './App.css';
 import { render } from '@testing-library/react';
 
@@ -11,6 +12,7 @@ class App extends Component {
     return (
       <div>
         <Header />
+        <PetTable />
       </div>
     );
   }
