@@ -23,7 +23,7 @@ function PetTable() {
   const classes = useStyles();
   const [pets, setPets] = useState([]);
   const [displayStatus, setDisplayStatus] = useState("available");
- 
+  const [id, setId] = useState(0);
 
   const getPets = () => {
     API.getPetsData(displayStatus)
@@ -35,6 +35,10 @@ function PetTable() {
 
       })
       .catch(err => console.log(err));
+  }
+
+  function handleID(newId){
+    setId(newId);
   }
 
   function updateDisplayStatus(status) {
@@ -74,7 +78,7 @@ function PetTable() {
               {/* <TableCell >{ }</TableCell> */}
               <TableCell >{petsInd.status}</TableCell>
               {displayStatus === "available" &&
-                <TableCell > <BuyPetButton pet={petsInd} /> </TableCell>
+                <TableCell > <BuyPetButton pet={petsInd} id={id} onChange={handleID}/> </TableCell>
               }
             </TableRow>
           ))}
