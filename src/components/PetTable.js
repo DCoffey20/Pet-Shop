@@ -1,4 +1,7 @@
 import React from 'react';
+import BuyPetButton from './BuyPetButton';
+import Header from './Header';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import API from '../util/API';
 
 const useStyles = makeStyles({
   table: {
@@ -14,43 +18,59 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 function PetTable() {
   const classes = useStyles();
+  const [pets, setPets] = useState([]);
+  const [displayStatus, setDisplayStatus] = useState("available")
+
+  const getPets = () => {
+    API.getPetsData(displayStatus)
+      .then((res) => {
+        const petsData = res.data
+        // console.log(res.data);
+        setPets(petsData);
+        // console.log(petsData);
+      })
+      .catch(err => console.log(err));
+  }
+
+  function updateDisplayStatus(status) {
+    setDisplayStatus(status);
+  }
+
+
+  useEffect(async () => {
+    await getPets();
+  }, [displayStatus]);
 
   return (
+
     <TableContainer component={Paper}>
+      <Header displayStatus={displayStatus} onChange={updateDisplayStatus} />
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Name</TableCell>
+            {/* <TableCell>Category</TableCell> */}
+            <TableCell>Status</TableCell>
+            {displayStatus === "available" &&
+              <TableCell >Purchase This Pet?</TableCell>
+            }
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
+
+          {pets.map((pets, index) => (
+            <TableRow key={index}>
+              <TableCell component="th" scope="pets">
+                {pets.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              {/* <TableCell >{ }</TableCell> */}
+              <TableCell >{pets.status}</TableCell>
+              {displayStatus === "available" &&
+                <TableCell > <BuyPetButton /> </TableCell>
+              }
             </TableRow>
           ))}
         </TableBody>
