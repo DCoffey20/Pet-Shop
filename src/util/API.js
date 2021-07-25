@@ -8,8 +8,8 @@ export default {
         return axios.get(BASEURL + GETSTATUS +status);
     },
 
-    updatePetStatus: function(id){
-        return axios.post(BASEURL + id, {"status": "sold"})
+    updatePetStatus: function(id,names){
+        return axios.post(BASEURL + id, {status: "sold", name: names})
     }
     
 };

@@ -73,7 +73,7 @@ function PetTable() {
               {/* <TableCell >{ }</TableCell> */}
               <TableCell >{petsInd.status}</TableCell>
               {displayStatus === "available" &&
-                <TableCell > <BuyPetButton id={petsInd.id}/> </TableCell>
+                <TableCell > <BuyPetButton id={petsInd.id} name={petsInd.name}/> </TableCell>
               }
             </TableRow>
           ))}

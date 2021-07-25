@@ -19,8 +19,8 @@ export default function ButPetButton(props) {
   }
 
   const updateSoldPets = () => {
-    console.log(props.id)
-    API.updatePetStatus(props.id)
+    console.log(props.name)
+    API.updatePetStatus(props.id, props.name)
     .then((res) => {
       console.log(res.data)
     })
