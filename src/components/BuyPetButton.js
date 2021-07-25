@@ -11,12 +11,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButPetButton() {
+export default function ButPetButton(props) {
   const classes = useStyles();
 
+  function log(){
+    console.log(props)
+  }
 
   const updateSoldPets = () => {
-    API.updatePetStatus()
+    console.log(props.id)
+    API.updatePetStatus(props.id)
     .then((res) => {
       console.log(res.data)
     })
