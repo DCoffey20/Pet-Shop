@@ -5,11 +5,12 @@ const GETSTATUS = "findByStatus?status="
 
 export default {
     getPetsData: function(status){
-        return axios.get(BASEURL + GETSTATUS +status);
+        return axios.get(BASEURL + GETSTATUS + status);
     },
 
-    updatePetStatus: function(id,names){
-        return axios.post(BASEURL + id, {status: "sold", name: names})
+    updatePetStatus: function(pet){
+        pet.status = "sold";
+        return axios.put(BASEURL , pet)
     }
     
 };
