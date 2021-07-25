@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import API from '../util/API';
@@ -14,18 +14,17 @@ const useStyles = makeStyles((theme) => ({
 export default function ButPetButton(props) {
   const classes = useStyles();
 
-  function log(){
-    console.log(props)
-  }
-
   const updateSoldPets = () => {
-    console.log(props.name)
-    API.updatePetStatus(props.id, props.name)
+    console.log("Original Status: " + props.pet.status)
+    API.updatePetStatus(props.pet)
     .then((res) => {
+      console.log("New Status: " + props.pet.status)
+      console.log(props)
       console.log(res.data)
     })
     .catch(err => console.log(err));
   }
+
 
   return (
     <div className={classes.root}>

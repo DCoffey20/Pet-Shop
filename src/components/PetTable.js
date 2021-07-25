@@ -22,15 +22,16 @@ const useStyles = makeStyles({
 function PetTable() {
   const classes = useStyles();
   const [pets, setPets] = useState([]);
-  const [displayStatus, setDisplayStatus] = useState("available")
+  const [displayStatus, setDisplayStatus] = useState("available");
+ 
 
   const getPets = () => {
     API.getPetsData(displayStatus)
       .then((res) => {
         const petsData = res.data
-        console.log(petsData);
+        // console.log(petsData);
         setPets(petsData.filter(pet => pet.id < 9223372000000247000));
-        console.log(pets);
+        // console.log(counter);
 
       })
       .catch(err => console.log(err));
@@ -73,7 +74,7 @@ function PetTable() {
               {/* <TableCell >{ }</TableCell> */}
               <TableCell >{petsInd.status}</TableCell>
               {displayStatus === "available" &&
-                <TableCell > <BuyPetButton id={petsInd.id} name={petsInd.name}/> </TableCell>
+                <TableCell > <BuyPetButton pet={petsInd} /> </TableCell>
               }
             </TableRow>
           ))}
