@@ -28,9 +28,10 @@ function PetTable() {
     API.getPetsData(displayStatus)
       .then((res) => {
         const petsData = res.data
-        // console.log(res.data);
-        setPets(petsData);
-        // console.log(petsData);
+        console.log(petsData);
+        setPets(petsData.filter(pet => pet.id < 9223372000000247000));
+        console.log(pets);
+
       })
       .catch(err => console.log(err));
   }
@@ -39,6 +40,9 @@ function PetTable() {
     setDisplayStatus(status);
   }
 
+  function idFilter (badId){
+    return badId < 9223372000000246454
+  }
 
   useEffect(async () => {
     await getPets();
@@ -61,15 +65,15 @@ function PetTable() {
         </TableHead>
         <TableBody>
 
-          {pets.map((pets, index) => (
+          {pets.map((petsInd, index) => (
             <TableRow key={index}>
               <TableCell component="th" scope="pets">
-                {pets.name}
+                {petsInd.name}
               </TableCell>
               {/* <TableCell >{ }</TableCell> */}
-              <TableCell >{pets.status}</TableCell>
+              <TableCell >{petsInd.status}</TableCell>
               {displayStatus === "available" &&
-                <TableCell > <BuyPetButton /> </TableCell>
+                <TableCell > <BuyPetButton id={petsInd.id}/> </TableCell>
               }
             </TableRow>
           ))}
